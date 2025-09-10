@@ -1,5 +1,5 @@
 ---
-title: "Claude Code と Kaggle をやったら何も考えずに上位30%に入れた"
+title: "Claude Code と Kaggle をやったら何も考えずに上位30%になれた話"
 emoji: "🤖"
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics:
@@ -7,7 +7,7 @@ topics:
   - "claudecode"
   - "データ分析"
   - "zennfes2025ai"
-published: false # 公開設定（falseにすると下書き）
+published: true # 公開設定（falseにすると下書き）
 publication_name: "genda_jp"
 ---
 
@@ -30,7 +30,7 @@ https://www.kaggle.com/competitions/playground-series-s5e4
 
 ## やったこと
 
-生成AI（Claude Code）だけにコードを書いてもらって Kaggle をやりました。リポジトリも公開していますが、ディレクトリ構成などを試行錯誤しながら進めていったので全体はきれいではないです。
+普段はデータサイエンティストとして働いていますが、試しに生成AI（Claude Code）だけにコードを書いてもらって Kaggle をやりました。リポジトリも公開していますが、ディレクトリ構成などを試行錯誤しながら進めていったので全体はきれいではないです。
 
 https://github.com/oddgai/kaggle-projects/tree/main/playground-s5e4-podcast-listening-time
 
