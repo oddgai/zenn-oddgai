@@ -7,7 +7,7 @@ topics:
   - "claudecode"
   - "データ分析"
   - "zennfes2025ai"
-published: false # 公開設定（falseにすると下書き）
+published: true # 公開設定（falseにすると下書き）
 publication_name: "genda_jp"
 ---
 
