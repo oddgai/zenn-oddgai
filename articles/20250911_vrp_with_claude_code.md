@@ -22,7 +22,7 @@ https://zenn.dev/genda_jp/articles/20250909_kaggle_with_claude_code
   - [OR-tools](https://developers.google.com/optimization?hl=ja), [PuLP](https://coin-or.github.io/pulp/)などのライブラリも使える
   - 他分野よりネットに情報が落ちてない印象があったので心配してたけど意外と大丈夫だった
   - 数秒で数百行のコードを書いてくるので人間による確認＆精度担保が大変
-    - 今回はテストデータなので甘めにやってしまったが・・・
+    - 今回はテストデータなので甘めにやってしまった・・・
   - C++やらRustやらでヒューリスティックをゴリゴリ書いてもらうとかは未調査だが、こちらも強そう
     - 参考：[AI vs 人間まとめ【AtCoder World Tour Finals 2025 Heuristic エキシビジョン】 - chokudaiのブログ](https://chokudai.hatenablog.com/entry/2025/07/21/190935)
 - AIらしいミスはするのでちゃんと確認は必要
@@ -34,12 +34,15 @@ https://zenn.dev/genda_jp/articles/20250909_kaggle_with_claude_code
 
 以下の2つのことをやってもらいました。AI（Claude Code）に各種ソルバーが使えるかを検証したかったので、どちらも問題およびデータはそこまで難しくないものを選びました。
 
-- CBCで施設配置問題を解く
+- [CBC](https://github.com/coin-or/Cbc)で施設配置問題を解く
   - MIPソルバーおよびモデラーを使えるかの検証
+  - 本当は[HiGHS](https://github.com/ERGO-Code/HiGHS)を使ってほしかったけど、AIに「このサイズの問題ならCBCで十分」と断られた
 - OR-toolsで配送計画問題（Vehicle Routing Problem, VRP）を解く
   - ヒューリスティックソルバーを使えるかの検証
 
-なお、今回の検証で人間は1行もコードを書いておらず、すべてAIに指示して書いてもらいました。
+使ったデータやコードは以下のリポジトリにあります。なお、今回の検証で人間は1行もコードを書いておらず、すべてAIに指示して書いてもらいました。
+
+https://github.com/oddgai/datascience-playground/tree/main/vrp-with-claude-code
 
 ### CBCで施設配置問題を解く
 
@@ -87,7 +90,7 @@ EOF
 
 AIにコードを書いてもらうためには、人間がAIの出力を確認しやすい仕組みを作るのが大切だと思っています。特にデータサイエンス系のプロジェクトでは、AIが書いたコードだけでなく関連する入出力（パラメータ、評価指標、グラフなど）もちゃんと確認・比較したいです。そのために、今回はMLflowという実験管理ツールを使っています。
 
-MLflowとは機械学習のライフサイクル管理（MLOps）を目的としたオープンソースライブラリです。機械学習プロジェクトの実験管理で使うのが一般的ですが、パラメータなどの入力、評価指標などの出力、それらに付随するファイル（画像やHTMLなど）をまとめて管理できるため、数理最適化プロジェクトでもかなり重宝すると思っています。
+MLflowとは機械学習のライフサイクル管理（MLOps）を目的としたオープンソースライブラリです。機械学習プロジェクトの実験管理で使うのが一般的ですが、**パラメータなどの入力、評価指標などの出力、それらに付随する画像やHTMLなどのファイルをまとめて管理できるため、数理最適化プロジェクトでもかなり重宝すると思っています**（特にPoCなどの初期段階）。
 
 https://mlflow.org/
 
@@ -101,7 +104,7 @@ https://mlflow.org/
 4. AIがコードを書いて実行する
 5. 以下同様
 
-AIへの指示はざっくりめにしました。たとえば最初の指示は以下のとおりで、解いてほしい問題ややってほしいことを箇条書きでまとめています。
+AIへの指示はざっくりめにしました。たとえば最初の指示は以下のとおりで、解いてほしい問題ややってほしいことを箇条書きでまとめています。問題はいわゆる[p-メディアン問題](https://scmopt.github.io/opt100/40kmedian.html)ですが、あえてその単語は出していません。うまく察してくれることを期待します。
 
 > 以下のような施設配置問題をMIPとして定式化してPython-MIPで解いて、MLflowに記録して。
 > - tai100aを使った施設配置問題
@@ -130,6 +133,7 @@ https://github.com/oddgai/datascience-playground/blob/main/vrp-with-claude-code/
 https://github.com/oddgai/datascience-playground/blob/main/vrp-with-claude-code/instances/facility-location/src/facility_utils.py
 
 - 数理最適化モデル実装
+  - ちゃんとp-メディアン問題の定式化に準拠して実装してくれました。えらい！
 
 https://github.com/oddgai/datascience-playground/blob/main/vrp-with-claude-code/instances/facility-location/src/facility_mip.py
 
@@ -161,11 +165,13 @@ MLflowを確認すると、ちゃんとMIPソルバーで最適解を出して�
 ![](https://storage.googleapis.com/zenn-user-upload/6e157c64dd05-20250912.png)
 *これもMLflowの画面。画像を表示してくれるのが嬉しい*
 
-という感じで、このくらいのシンプルな問題・データであればすぐに解いてくれました。次は配送計画問題（VRP）というもう少し難しいことをやってもらいましょう。
+という感じで、このくらいの問題・データであればすぐに解いてくれました。
 
 ### OR-toolsで配送計画問題を解く
 
 配送計画問題（VRP）とは、1つの拠点から複数の車両が複数の配送先へ配送するとき、全ての車両の走行距離の総和が最小になるような配送ルートを求める問題です。全ての車両の走行距離の総和が評価指標（目的関数値）となり、この値が小さいほど良い解になります。
+
+VRPは古くから研究されている問題で多くのバリエーションがありますが、今回は容量制約付きの配送計画問題（Capacitated Vehicle Routing Problem, CVRP）を解いてもらいます。配送先ごとに需要（例：N個の商品がほしい）をもっているが、1つの車両に載せられる量には上限があり、どの車両がどの配送先に向かえば需要を満たしたうえで走行距離を短くできるか、という問題です。
 
 #### 使ったデータ
 
@@ -173,17 +179,18 @@ MLflowを確認すると、ちゃんとMIPソルバーで最適解を出して�
 
 #### AIによる実装
 
-実験管理、および実装の流れも先ほどと同様です。
+実験管理、および実装の流れも先ほどと同様です。施設配置問題のときよりもざっくり指示してみます。
 
 > instances/tai75a/data にVRPのデータがある。instances/tai75a/experiments/exp001 にこれを解くアルゴリズムを書きたい。OR-toolsで実装できる？結果はinstances/tai75a/results/exp001 において
 
-施設配置問題のときよりもざっくり指示してみました。VRPやOR-toolsの説明はあえて省いたのですが、これだけでもコードを書いてくれました。
+VRPやOR-toolsの説明はあえて省いたのですが、これだけでもコードを書いてくれました。すごい〜。
 
 - 汎用的なモジュール（データを読み込んだり、距離行列を作ったり）
 
 https://github.com/oddgai/datascience-playground/blob/main/vrp-with-claude-code/instances/tai75a/experiments/exp001/utils.py
 
-- ソルバーによる実装
+- ソルバーによる実装（ノートブック）
+  - [OR-toolsの公式ドキュメント](https://developers.google.com/optimization/routing/vrp?hl=ja)をほぼコピペしてそうだが、すなわち適切ということ
 
 https://github.com/oddgai/datascience-playground/blob/main/vrp-with-claude-code/instances/tai75a/experiments/exp001/exp001.ipynb
 
@@ -207,7 +214,7 @@ MLflowを見ると、以下のように最適解に近い解を出してくれ�
 >
 > すべての実験はそれぞれ今までと同じようにインスタンス名に対応したディレクトリを作成し、その中に experiments/expXXX, results/expXXX というディレクトリを作成して、実験結果してください。1つの実験が終わるたびにMLflowに結果を記録してください。
 
-しばらくすると実験が終わって、以下のようにMLflowに結果がまとまってました。`tai385`を除いて、最適解とのGAPが3%以下の解が求まったようです。本当は`solve_time`には計算にかかった時間を書いてほしかったのですが、制限時間を書いてしまっています。ちゃんと指示しなかった人間が悪いです。
+しばらくすると実験が終わって、以下のようにMLflowに結果がまとまってました。`tai385`を除いて、最適解とのGAPが3%以下の解が求まったようです。本当は`solve_time`には計算にかかった時間を書いてほしかったのですが、あらかじめ設定した制限時間を書いてしまっています。ちゃんと指示しなかった人間が悪いです。
 
 ![](https://storage.googleapis.com/zenn-user-upload/d32b74803e87-20250912.png)
 *MLflowの実験リスト*
