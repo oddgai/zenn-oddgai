@@ -30,7 +30,7 @@ https://qiita.com/advent-calendar/2025
 - init Scriptsを使って自動インストールすれば、Compute起動のたびに手動でインストールする手間が省ける
 - やや動作がもっさりするのが難点だが、Databricks Computeのリソースを使いながらAIと協業できるのは便利
 
-![alt text](/images/20251205_ai_on_databricks_terminal/demo.png)
+![demo](/images/20251205_ai_on_databricks_terminal/demo.png)
 *Databricks Webターミナルで開発しつつ、別窓でワークスペースブラウザを開いて成果物を確認できる*
 
 ## はじめに
@@ -47,7 +47,7 @@ Databricksでは、`Compute > [任意のCompute] > Apps > Terminal` からWebタ
 
 https://docs.databricks.com/aws/ja/compute/web-terminal
 
-![alt text](/images/20251205_ai_on_databricks_terminal/databricks_terminal.png)
+![databricks_terminal](/images/20251205_ai_on_databricks_terminal/databricks_terminal.png)
 *この画面から起動できる*
 
 作業ディレクトリ（筆者の環境では`/Workspace/Users/[自分のメールアドレス]`）の下にGitフォルダを作成しておけば、外部環境との同期も可能です。
@@ -88,8 +88,7 @@ apt-get update
 apt-get install screen
 
 # screenの設定
-SCREEN_CONF="$HOME/.screenrc"
-cat > "$SCREEN_CONF" << 'EOF'
+cat > "$HOME/.screenrc" << 'EOF'
 # Encoding
 defutf8 on
 defencoding utf8
@@ -110,8 +109,6 @@ termcapinfo xterm* ti@:te@
 # ステータスライン
 hardstatus alwayslastline "%{= cd} %-w%{= wk} %n %t* %{-}%+w"
 EOF
-
-source "$SCREEN_CONF"
 
 # 各種インストール
 WORKING_DIR="/Workspace/Users/[自分のメールアドレス]"
