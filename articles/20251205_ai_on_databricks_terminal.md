@@ -7,7 +7,7 @@ topics:
   - "claudecode"
   - "codex"
   - "データ分析"
-published: false # 公開設定(falseにすると下書き)
+published: true # 公開設定(falseにすると下書き)
 published_at: 2025-12-05
 publication_name: "genda_jp"
 ---
