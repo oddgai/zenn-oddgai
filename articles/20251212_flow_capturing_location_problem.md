@@ -322,6 +322,10 @@ JijModelingの機能で地味に便利だなと思ったのが、実装したモ
 ![ノートブックでの定式化](/images/20251212_flow_capturing_location_problem/problem_latex.png)
 *Jupyterやmarimoなどのノートブックだと数式表現を出せて便利！なんと右クリックでLatex記法がコピーできる*
 
+ちなみに、JijModelingは近日大幅なアップデートも予定されているようです。期待。
+
+https://zenn.dev/jij_inc/articles/2025-12-09-jijmodeling2-a-new-code
+
 ### データを入力してインスタンスに変換
 
 次に、以下のようにモデルにデータを入力します。なおJijModelingにはランダムなデータを生成する機能もありましたが、今回は使いませんでした。
