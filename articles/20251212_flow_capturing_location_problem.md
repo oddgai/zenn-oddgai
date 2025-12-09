@@ -18,7 +18,7 @@ publication_name: "genda_jp"
 
 こんにちは、データサイエンティストのoddgaiです。私事ながら本日12/12は誕生日です。妻から欲しいものを聞かれたのですが何も思い浮かばず悲しくなりました。願うことはもはや家族の健康しかありません・・・
 
-さて、施設配置問題は空間内において施設の望ましい配置場所を見つける問題で、最適化手法の適用対象の1つです。施設配置問題といえば[p-メディアン問題](https://www.msi.co.jp/solution/nuopt/docs/examples/html/02-10-00.html)や[p-センター問題](https://www.msi.co.jp/solution/nuopt/docs/examples/html/02-11-00.html)などが有名で、少し調べれば日本語の解説記事や実装例もいくつかヒットします。一方で、フロー捕捉型配置問題（Flow Capturing Location Problem; FCLP）^[[Hodgson, M.J., A flow-capturing location-allocation model, Geographical Analysis, 22, pp.270-279, 1990.](https://doi.org/10.1111/j.1538-4632.1990.tb00210.x)]は実務でも応用できそうなおもしろい問題なのですが、日本語の情報が論文くらいしか見当たりませんでした。
+さて、施設配置問題は空間内において施設の望ましい配置場所を見つける問題で、最適化手法の適用対象の1つです。施設配置問題といえば[p-メディアン問題](https://www.msi.co.jp/solution/nuopt/docs/examples/html/02-10-00.html)や[p-センター問題](https://www.msi.co.jp/solution/nuopt/docs/examples/html/02-11-00.html)などが有名で、少し調べれば日本語の解説記事や実装例もいくつかヒットします。一方で、フロー捕捉型配置問題（Flow Capturing Location Problem: FCLP）^[[Hodgson, M.J., A flow-capturing location-allocation model, Geographical Analysis, 22, pp.270-279, 1990.](https://doi.org/10.1111/j.1538-4632.1990.tb00210.x)]は実務でも応用できそうなおもしろい問題なのですが、日本語の情報が論文くらいしか見当たりませんでした。
 
 そこでこの記事では、FCLPの概要と定式化、そして[JijModeling](https://jij-inc.github.io/JijModeling-Tutorials/ja/introduction.html)による実装例を紹介します。施設配置問題に興味がある方や、人流データを活用した出店戦略に関心がある方の参考になれば幸いです。
 
