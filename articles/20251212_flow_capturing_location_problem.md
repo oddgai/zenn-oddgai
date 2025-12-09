@@ -1,6 +1,6 @@
 ---
 title: "JijModelingでフロー捕捉型配置問題を実装してみた"
-emoji: "🤖"
+emoji: "🚶"
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics:
   - "数理最適化"
